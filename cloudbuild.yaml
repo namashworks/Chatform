@@ -65,7 +65,11 @@ steps:
       - --max-instances=5
       - --session-affinity
       - --timeout=900
-      - --set-env-vars=STORAGE_BACKEND=cloud,GCP_PROJECT=$PROJECT_ID,GCS_BUCKET=${_BUCKET}
+      # NOTE: --update-env-vars *merges* — existing vars like PUBLIC_BASE_URL
+      # (set once after the first deploy with the assigned Cloud Run hostname)
+      # are preserved across redeploys. Using --set-env-vars instead would wipe
+      # them every time.
+      - --update-env-vars=STORAGE_BACKEND=cloud,GCP_PROJECT=$PROJECT_ID,GCS_BUCKET=${_BUCKET}
 
 images:
   - ${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPO}/${_SERVICE}:$BUILD_ID
