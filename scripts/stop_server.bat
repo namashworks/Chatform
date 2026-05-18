@@ -1,6 +1,6 @@
 @echo off
 REM ============================================================================
-REM stop_server.bat  -  Stop the detached Form Chatbot server.
+REM stop_server.bat  -  Stop the detached Chatform server.
 REM
 REM Finds whatever process is LISTENING on the Streamlit port (default 8501)
 REM and kills it. Pass a different port as the first argument if needed.
@@ -21,7 +21,7 @@ for /f "tokens=5" %%a in ('netstat -ano ^| findstr ":%PORT%" ^| findstr "LISTENI
 )
 
 if "%FOUND%"=="0" (
-    echo No Form Chatbot server found listening on port %PORT%.
+    echo No Chatform server found listening on port %PORT%.
     exit /b 1
 )
 

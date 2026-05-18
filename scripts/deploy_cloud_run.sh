@@ -12,16 +12,16 @@
 #   * Billing enabled on the target project
 #
 # Usage:
-#   PROJECT_ID=my-proj REGION=us-central1 BUCKET=my-form-chatbot-bucket \
+#   PROJECT_ID=my-proj REGION=us-central1 BUCKET=my-chatform-bucket \
 #     scripts/deploy_cloud_run.sh
 # ============================================================================
 set -euo pipefail
 
 PROJECT_ID="${PROJECT_ID:?Set PROJECT_ID, e.g. PROJECT_ID=my-gcp-project}"
 REGION="${REGION:-us-central1}"
-SERVICE="${SERVICE:-form-chatbot}"
-REPO="${REPO:-form-chatbot}"
-BUCKET="${BUCKET:?Set BUCKET, e.g. BUCKET=my-form-chatbot-bucket}"
+SERVICE="${SERVICE:-chatform}"
+REPO="${REPO:-chatform}"
+BUCKET="${BUCKET:?Set BUCKET, e.g. BUCKET=my-chatform-bucket}"
 
 echo "==> Project   : $PROJECT_ID"
 echo "==> Region    : $REGION"

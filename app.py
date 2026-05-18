@@ -37,7 +37,7 @@ INCOMPLETE_FOLDER = "incomplete"
 COMPLETE_FOLDER = "complete"
 
 
-st.set_page_config(page_title="Form Chatbot", page_icon="📝", layout="centered")
+st.set_page_config(page_title="Chatform", page_icon="💬", layout="centered")
 
 
 # ---------- session bootstrap ----------
@@ -581,7 +581,8 @@ def _embed_snippet(url: str) -> str:
 
 
 def _run_generator() -> None:
-    st.title("🤖 Generate a Form Chatbot")
+    st.title("💬 Chatform")
+    st.caption("Turn any Google Form into a conversation.")
     st.markdown(
         "Turn any **public** Google Form into a conversational chatbot. "
         "Paste the form URL and a Gemini API key, press **Generate**, and you'll "

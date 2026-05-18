@@ -2,7 +2,7 @@
 # deploy to Cloud Run. Trigger from GitHub or run manually with:
 #
 #   gcloud builds submit --config=cloudbuild.yaml \
-#     --substitutions=_REGION=us-central1,_REPO=form-chatbot,_SERVICE=form-chatbot,_BUCKET=YOUR_BUCKET
+#     --substitutions=_REGION=us-central1,_REPO=chatform,_SERVICE=chatform,_BUCKET=YOUR_BUCKET
 #
 # Required substitutions you set per-project:
 #   _REGION   GCP region for Artifact Registry + Cloud Run (e.g. us-central1)
@@ -17,8 +17,8 @@
 
 substitutions:
   _REGION: us-central1
-  _REPO: form-chatbot
-  _SERVICE: form-chatbot
+  _REPO: chatform
+  _SERVICE: chatform
   _BUCKET: ""
 
 options:
@@ -32,7 +32,7 @@ steps:
     args:
       - build
       - --tag
-      - ${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPO}/${_SERVICE}:$SHORT_SHA
+      - ${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPO}/${_SERVICE}:$BUILD_ID
       - --tag
       - ${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPO}/${_SERVICE}:latest
       - .
@@ -54,7 +54,7 @@ steps:
       - run
       - deploy
       - ${_SERVICE}
-      - --image=${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPO}/${_SERVICE}:$SHORT_SHA
+      - --image=${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPO}/${_SERVICE}:$BUILD_ID
       - --region=${_REGION}
       - --platform=managed
       - --allow-unauthenticated
@@ -68,5 +68,5 @@ steps:
       - --set-env-vars=STORAGE_BACKEND=cloud,GCP_PROJECT=$PROJECT_ID,GCS_BUCKET=${_BUCKET}
 
 images:
-  - ${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPO}/${_SERVICE}:$SHORT_SHA
+  - ${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPO}/${_SERVICE}:$BUILD_ID
   - ${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPO}/${_SERVICE}:latest

@@ -1,6 +1,6 @@
 @echo off
 REM ============================================================================
-REM start_server.bat  -  Launch the Form Chatbot so it survives this terminal.
+REM start_server.bat  -  Launch the Chatform so it survives this terminal.
 REM
 REM Streamlit IS the web server, so when you press Ctrl+C or close the cmd
 REM window that runs `streamlit run`, the chatbot dies with it. This script
@@ -28,12 +28,12 @@ if not exist .venv\Scripts\python.exe (
 
 REM /MIN starts the cmd minimized; cmd /c keeps it alive only as long as
 REM streamlit is running. Output goes to logs\streamlit.log.
-start "Form Chatbot Server (port %PORT%)" /MIN cmd /c ^
+start "Chatform Server (port %PORT%)" /MIN cmd /c ^
     ".venv\Scripts\python.exe -m streamlit run app.py --server.headless true --server.port %PORT% --browser.gatherUsageStats false >> logs\streamlit.log 2>&1"
 
 echo.
-echo Form Chatbot server starting on http://localhost:%PORT%
-echo A minimized window titled "Form Chatbot Server (port %PORT%)" now runs the server.
+echo Chatform server starting on http://localhost:%PORT%
+echo A minimized window titled "Chatform Server (port %PORT%)" now runs the server.
 echo Closing THIS terminal will NOT kill it.
 echo.
 echo Stop with:  scripts\stop_server.bat

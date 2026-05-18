@@ -1,10 +1,14 @@
-# Google Forms → Conversational Chatbot
+# Chatform — Google Forms as a conversation
 
 Turn any public Google Form into a one-question-at-a-time chat experience.
 A Gemini-powered assistant asks each question conversationally, clarifies
 whenever the user is confused, validates the answer against the form's
 constraints, and submits the response through Google's `/formResponse`
 endpoint.
+
+> **Why?** Long forms have notoriously high drop-off rates. Chatform
+> presents one question at a time, simplifies jargon on request, speaks 12
+> languages, and saves every turn so an interrupted user can resume later.
 
 ## How it works
 
@@ -80,7 +84,7 @@ scripts\stop_server.bat 9000
 ```
 
 Logs go to `logs\streamlit.log`. The detached window is labeled
-`Form Chatbot Server (port 8501)` — you can also stop the server by closing
+`Chatform Server (port 8501)` — you can also stop the server by closing
 that window.
 
 For real "always-on" deployment, prefer one of:
@@ -88,7 +92,7 @@ For real "always-on" deployment, prefer one of:
 | Option | When to use it |
 | --- | --- |
 | **Streamlit Community Cloud** | Easiest. Push to GitHub, connect, deploy. Free tier covers most teams. |
-| **NSSM** (Non-Sucking Service Manager) | You want it as a Windows service — `nssm install FormChatbot ".venv\Scripts\python.exe" "-m streamlit run app.py --server.headless true"`. |
+| **NSSM** (Non-Sucking Service Manager) | You want it as a Windows service — `nssm install Chatform ".venv\Scripts\python.exe" "-m streamlit run app.py --server.headless true"`. |
 | **Task Scheduler** | Built into Windows. Trigger "At log on" / "At startup", action runs `start_server.bat`. |
 | **Docker + reverse proxy** | Multi-host production. Streamlit behind nginx / Caddy. |
 
@@ -123,7 +127,9 @@ session artifacts so it scales across instances and survives restarts.
 # From a Cloud Shell or any machine with gcloud + auth configured
 export PROJECT_ID=your-gcp-project
 export REGION=us-central1
-export BUCKET=your-gcp-project-form-chatbot-sessions   # must be globally unique
+export SERVICE=chatform                                # Cloud Run service name
+export REPO=chatform                                   # Artifact Registry repo name
+export BUCKET=your-gcp-project-chatform-sessions       # must be globally unique
 ./scripts/deploy_cloud_run.sh
 ```
 
@@ -136,8 +142,8 @@ After the first deploy, set the public hostname so generated share URLs
 point at the right place:
 
 ```bash
-URL=$(gcloud run services describe form-chatbot --region=$REGION --format='value(status.url)')
-gcloud run services update form-chatbot --region=$REGION --update-env-vars=PUBLIC_BASE_URL=$URL
+URL=$(gcloud run services describe chatform --region=$REGION --format='value(status.url)')
+gcloud run services update chatform --region=$REGION --update-env-vars=PUBLIC_BASE_URL=$URL
 ```
 
 ### Streamlit Community Cloud (alternative)

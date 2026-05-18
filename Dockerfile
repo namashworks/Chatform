@@ -1,17 +1,16 @@
 # syntax=docker/dockerfile:1.6
 #
-# Production image for the Form Chatbot.
+# Production image for Chatform.
 # - Multi-stage build: deps compiled in a builder, copied into a slim runtime.
 # - Non-root user.
 # - Cloud Run-friendly: listens on $PORT, single CMD, fast cold start.
 #
 # Build:
-#   docker build -t form-chatbot:latest .
+#   docker build -t chatform:latest .
 # Run locally:
 #   docker run --rm -p 8080:8080 \
-#     -e GOOGLE_API_KEY=... \
 #     -e PUBLIC_BASE_URL=http://localhost:8080 \
-#     form-chatbot:latest
+#     chatform:latest
 #
 # For GCP deployment use scripts/deploy_cloud_run.sh or cloudbuild.yaml.
 
