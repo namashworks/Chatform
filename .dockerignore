@@ -1,0 +1,33 @@
+# Keep the image small and free of secrets.
+.git/
+.github/
+.venv/
+__pycache__/
+**/__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Local-only runtime state
+sessions/
+tenants/
+logs/
+*.log
+
+# Secrets must come from env vars / Secret Manager, never the image
+.env
+.env.*
+!.env.example
+
+# Editor / OS noise
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Docs / scripts the runtime doesn't need
+README.md
+docs/
+scripts/start_server.bat
+scripts/stop_server.bat
+scripts/check_*.py

@@ -1,0 +1,4 @@
+# Additional deps when STORAGE_BACKEND=cloud. Installed into the production
+# image; not required for local development with STORAGE_BACKEND=local.
+google-cloud-firestore>=2.16.0
+google-cloud-storage>=2.16.0
