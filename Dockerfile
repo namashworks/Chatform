@@ -41,6 +41,11 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 
 # Non-root user so the container follows least-privilege.
 RUN groupadd --system app && useradd --system --gid app --home /home/app --shell /sbin/nologin app
+
+# WORKDIR creates /app as root before the `app` user can use it. Pre-create
+# it explicitly and chown so the app can write temp files / local-backend
+# directories if STORAGE_BACKEND=local is ever set.
+RUN mkdir -p /app && chown -R app:app /app
 WORKDIR /app
 
 # Install only the pre-built wheels — no compiler, no apt cache.

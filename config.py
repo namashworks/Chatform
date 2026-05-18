@@ -24,8 +24,21 @@ COMPLETE_DIR = SESSIONS_DIR / "complete"
 # its own JSON in tenants/. The shareable chatbot URL embeds the tenant ID.
 TENANTS_DIR = PROJECT_ROOT / "tenants"
 
-for _d in (SESSIONS_DIR, INCOMPLETE_DIR, COMPLETE_DIR, TENANTS_DIR):
-    _d.mkdir(parents=True, exist_ok=True)
+# Directory creation is deferred to whichever backend actually needs them.
+# The local backend (storage/local.py) lazily mkdirs on first use; the cloud
+# backend writes to Firestore + GCS and never touches local disk. Doing the
+# mkdir here unconditionally would crash in read-only/non-writable container
+# filesystems (Cloud Run runs the app as a non-root user that can't write to
+# the WORKDIR).
+if (os.environ.get("STORAGE_BACKEND") or "local").strip().lower() == "local":
+    for _d in (SESSIONS_DIR, INCOMPLETE_DIR, COMPLETE_DIR, TENANTS_DIR):
+        try:
+            _d.mkdir(parents=True, exist_ok=True)
+        except OSError:
+            # Read-only filesystem or insufficient permissions — fine; if the
+            # local backend is actually selected, instantiating it will surface
+            # a clearer error at that point.
+            pass
 
 DEFAULT_PUBLIC_BASE_URL = "http://localhost:8501"
 
